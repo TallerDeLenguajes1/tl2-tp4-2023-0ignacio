@@ -41,10 +41,6 @@ namespace ProgramCadeteria
                 Instance.dataAccessPedidos = new DataAccessPedidos();
                 Instance.Cadetes = Instance.dataAccessCadetes.Obtener();
                 Instance.Pedidos = Instance.dataAccessPedidos.Obtener();
-                // Instance.Pedidos.Add(new Pedido("Pedido 1", "Juan", "Direccion 1", "3811111111", "Ref dir 1"));
-                // Instance.Pedidos.Add(new Pedido("Pedido 2", "Ignacio", "Direccion 2", "3811111112", "Ref dir 2"));
-                // Instance.Pedidos.Add(new Pedido("Pedido 3", "Catalina", "Direccion 3", "3811111113", "Ref dir 3"));
-
             }
             return Instance;
         }
@@ -84,11 +80,21 @@ namespace ProgramCadeteria
         public Pedido GetPedido(int nroPedido)
         {
             Pedido aux = Pedidos.FirstOrDefault(p => p.Nro == nroPedido);
-            if (aux != null)
-            {
-                return aux;
-            }
-            return null;
+            return (aux != null) ? aux : null;
+        }
+
+        public Cadete GetCadete(int idCadete)
+        {
+            Cadete aux = Cadetes.FirstOrDefault(p => p.Id == idCadete);
+            return (aux != null) ? aux : null;
+        }
+
+        public Cadete CrearCadete(Cadete cadete)
+        {
+            Instance.Cadetes.Add(cadete);
+            cadete.Id = Instance.Cadetes.Count();
+            dataAccessCadetes.Guardar(Instance.Cadetes);
+            return cadete;
         }
 
         public int JornalACobrar(int idCadete)

@@ -29,6 +29,16 @@ namespace ProgramCadeteria
             }
             return new List<Cadete>();
         }
+
+        public void Guardar(List<Cadete> cadetes)
+        {
+            if(File.Exists("CadetesData.json"))
+            {
+                using (File.Create("CadetesData.json")) {}
+            }
+            string json = JsonSerializer.Serialize(cadetes);
+            File.WriteAllText("CadetesData.json", json);
+        }
     }
 
     public class DataAccessPedidos

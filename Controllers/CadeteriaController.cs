@@ -19,15 +19,27 @@ public class CadeteriaController : ControllerBase
     [HttpGet("GetPedidos")]
     public ActionResult<List<Pedido>> GetPedidos()
     {
-        if(Leno.Pedidos == null) return NotFound();
-        return Ok(Leno.Pedidos);
+        return (Leno.Pedidos == null) ? NotFound() : Ok(Leno.Pedidos);
+    }
+
+    [HttpGet("GetPedidoNro")]
+    public ActionResult<Pedido> GetPedidoNro(int nroPedido)
+    {
+        var pedidoABuscar = Leno.GetPedido(nroPedido);
+        return (pedidoABuscar == null) ? NotFound(): Ok(pedidoABuscar);
     }
 
     [HttpGet("GetCadetes")]
     public ActionResult<List<Cadete>> GetCadetes()
     {
-        if(Leno.Cadetes == null) return NotFound();
-        return Ok(Leno.Cadetes);
+        return (Leno.Cadetes == null) ? NotFound() : Ok(Leno.Cadetes);
+    }
+
+    [HttpGet("GetCadeteId")]
+    public ActionResult<Cadete> GetCadeteId(int idCadete)
+    {
+        var cadeteABuscar = Leno.GetCadete(idCadete);
+        return (cadeteABuscar == null) ? NotFound() : Ok(cadeteABuscar);
     }
 
     [HttpPost("AgregarPedido")]
@@ -37,27 +49,31 @@ public class CadeteriaController : ControllerBase
         return Ok(nuevoPedido);
     }
 
+    [HttpPost("AgregarCadete")]
+    public ActionResult<Pedido> AgregarCadete(Cadete cadete)
+    {
+        var nuevoCadete = Leno.CrearCadete(cadete);
+        return Ok(nuevoCadete);
+    }
+
     [HttpPut("AsignarPedido")]
     public ActionResult<Pedido> AsignarPedido(int nroPedido, int idCadete)
     {
         var nuevoPedido = Leno.AsignarPedido(idCadete, nroPedido);
-        if(nuevoPedido == null) return BadRequest();
-        return Ok(nuevoPedido);
+        return (nuevoPedido == null) ? BadRequest() : Ok(nuevoPedido);
     }
     
     [HttpPut("CambiarEstadoPedido")]
     public ActionResult<Pedido> CambiarEstadoPedido(int nroPedido)
     {
         var nuevoPedido = Leno.CambiarEstadoPedido(nroPedido);
-        if(nuevoPedido == null) return BadRequest();
-        return Ok(nuevoPedido);
+        return (nuevoPedido == null) ? BadRequest() : Ok(nuevoPedido);
     }
 
     [HttpPut("CambiarCadetePedido")]
     public ActionResult<Pedido> CambiarCadetePedido(int nroPedido, int idCadete)
     {
         var nuevoPedido = Leno.AsignarPedido(nroPedido, idCadete);
-        if(nuevoPedido == null) return BadRequest();
-        return Ok(nuevoPedido);
+        return (nuevoPedido == null) ? BadRequest() : Ok(nuevoPedido);
     }
 }
