@@ -33,3 +33,4 @@ C:\Users\ignac\Documents\PDFs Facet\PU\2do año\2do cuatrimestre\Taller 2\TPs\tl
 C:\Users\ignac\Documents\PDFs Facet\PU\2do año\2do cuatrimestre\Taller 2\TPs\tl2-tp4-2023-0ignacio\obj\Debug\net7.0\tl2-tp4-2023-0ignacio.pdb
 C:\Users\ignac\Documents\PDFs Facet\PU\2do año\2do cuatrimestre\Taller 2\TPs\tl2-tp4-2023-0ignacio\obj\Debug\net7.0\tl2-tp4-2023-0ignacio.genruntimeconfig.cache
 C:\Users\ignac\Documents\PDFs Facet\PU\2do año\2do cuatrimestre\Taller 2\TPs\tl2-tp4-2023-0ignacio\obj\Debug\net7.0\ref\tl2-tp4-2023-0ignacio.dll
+C:\Users\ignac\Documents\PDFs Facet\PU\2do año\2do cuatrimestre\Taller 2\TPs\tl2-tp4-2023-0ignacio\bin\Debug\net7.0\PedidosData.json

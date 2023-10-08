@@ -1,15 +1,16 @@
-
-
 namespace ProgramCadeteria
 {
     public class Cadeteria
     {
+        private DataAccessCadetes dataAccessCadetes;
+        private DataAccessPedidos dataAccessPedidos;
+        private static Cadeteria Instance;
+
         private string nombre;
         private string tel;
         private List<Cadete> cadetes;
         private List<Pedido> pedidos;
 
-        static Cadeteria cad;
         
         public string Nombre { get => nombre; set => nombre = value; }
         public string Tel { get => tel; set => tel = value; }
@@ -32,27 +33,26 @@ namespace ProgramCadeteria
 
         public static Cadeteria Instantiate()
         {
-            if (cad == null)
+            if (Instance == null)
             {
-                dataAccess data = new dataAccessJSON();
-                
-                cad = data.getInfoCadeteria("CadeteriaData.json");
-                cad.Cadetes = data.getInfoCadetes("CadetesData.json");
-                
+                DataAccessCadeteria dataCadeteria = new DataAccessCadeteria();
+                Instance = dataCadeteria.Obtener();
+                Instance.dataAccessCadetes = new DataAccessCadetes();
+                Instance.dataAccessPedidos = new DataAccessPedidos();
+                Instance.Cadetes = Instance.dataAccessCadetes.Obtener();
+                Instance.Pedidos = Instance.dataAccessPedidos.Obtener();
+                // Instance.Pedidos.Add(new Pedido("Pedido 1", "Juan", "Direccion 1", "3811111111", "Ref dir 1"));
+                // Instance.Pedidos.Add(new Pedido("Pedido 2", "Ignacio", "Direccion 2", "3811111112", "Ref dir 2"));
+                // Instance.Pedidos.Add(new Pedido("Pedido 3", "Catalina", "Direccion 3", "3811111113", "Ref dir 3"));
 
-                cad.Pedidos.Add(new Pedido("Pedido 1", "Juan", "Direccion 1", "3811111111", "Ref dir 1"));
-                cad.Pedidos.Add(new Pedido("Pedido 2", "Ignacio", "Direccion 2", "3811111112", "Ref dir 2"));
-                cad.Pedidos.Add(new Pedido("Pedido 3", "Catalina", "Direccion 3", "3811111113", "Ref dir 3"));
             }
-            return cad;
-        }
-        public void CadetesListCharge(List<Cadete> cadetes){
-            this.Cadetes = cadetes;
+            return Instance;
         }
 
         public Pedido TomarPedido(Pedido pedido){
-            this.Pedidos.Add(pedido);
-            pedido.Nro = this.Pedidos.Count();
+            Instance.Pedidos.Add(pedido);
+            pedido.Nro = Instance.Pedidos.Count();
+            dataAccessPedidos.Guardar(Instance.Pedidos);
             return pedido;
         }
 
@@ -63,6 +63,7 @@ namespace ProgramCadeteria
             if (c != null && p != null)
             {
                 p.IdCadete = c.Id;
+                dataAccessPedidos.Guardar(Instance.Pedidos);
                 return p;
             }
             return null;
@@ -74,6 +75,7 @@ namespace ProgramCadeteria
             if (p != null)
             {
                 p.Entregado();
+                dataAccessPedidos.Guardar(Instance.Pedidos);
                 return p;
             }
             return null;
@@ -88,9 +90,9 @@ namespace ProgramCadeteria
             }
             return null;
         }
+
         public int JornalACobrar(int idCadete)
         {
-            // return(500 * pedidos.Count(p => p.Estado == EstadoPedido.Entregado && p.IdCadete == idCadete));
             return(500 * (cadetes.FirstOrDefault(c => c.Id == idCadete).CantPedEntregados));
         }
     }
